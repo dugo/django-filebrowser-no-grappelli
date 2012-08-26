@@ -7,6 +7,7 @@
     <a href="{{ value.url_full }}" target="_blank" id="link_{{ final_attrs.id }}">
         <img id="image_{{ final_attrs.id }}" src="{% version value.path final_attrs.ADMIN_THUMBNAIL %}" class="preview" />
     </a>
+    {% if final_attrs.help_text%}<p class="help">{{final_attrs.help_text}}</p>{%endif%}
 </p>
 {% else %}
 <p class="help" id="help_{{ final_attrs.id }}" style="display: none;">

@@ -27,6 +27,7 @@ class FileBrowseWidget(Input):
     def __init__(self, attrs=None):
         self.directory = attrs.get('directory', '')
         self.extensions = attrs.get('extensions', '')
+        self.help_text = attrs.get('help_text', '')
         self.format = attrs.get('format', '')
         if attrs is not None:
             self.attrs = attrs.copy()
@@ -40,6 +41,7 @@ class FileBrowseWidget(Input):
         final_attrs['search_icon'] = URL_FILEBROWSER_MEDIA + 'img/filebrowser_icon_show.gif'
         final_attrs['directory'] = self.directory
         final_attrs['extensions'] = self.extensions
+        final_attrs['help_text'] = self.help_text
         final_attrs['format'] = self.format
         final_attrs['ADMIN_THUMBNAIL'] = ADMIN_THUMBNAIL
         final_attrs['DEBUG'] = DEBUG
@@ -59,11 +61,12 @@ class FileBrowseFormField(forms.CharField):
     }
     
     def __init__(self, max_length=None, min_length=None,
-                 directory=None, extensions=None, format=None,
+                 directory=None, extensions=None, format=None,help_text=None,
                  *args, **kwargs):
         self.max_length, self.min_length = max_length, min_length
         self.directory = directory
         self.extensions = extensions
+        self.help_text = help_text
         if format:
             self.format = format or ''
             self.extensions = extensions or EXTENSIONS.get(format)
@@ -86,6 +89,7 @@ class FileBrowseField(Field):
         self.directory = kwargs.pop('directory', '')
         self.extensions = kwargs.pop('extensions', '')
         self.format = kwargs.pop('format', '')
+        self.help = kwargs.pop('help_text', '')
         return super(FileBrowseField, self).__init__(*args, **kwargs)
     
     def to_python(self, value):
@@ -110,10 +114,12 @@ class FileBrowseField(Field):
         attrs["directory"] = self.directory
         attrs["extensions"] = self.extensions
         attrs["format"] = self.format
+        attrs["help_text"] = self.help
         defaults = {
             'form_class': FileBrowseFormField,
             'widget': FileBrowseWidget(attrs=attrs),
             'directory': self.directory,
+            'help_text': self.help_text,
             'extensions': self.extensions,
             'format': self.format
         }
