@@ -14,6 +14,7 @@
     <a href="javascript://" target="_self" id="link_{{ final_attrs.id }}">
         <img id="image_{{ final_attrs.id }}" class="preview" src="" />
     </a>
+    {% if final_attrs.help_text%}<p class="help">{{final_attrs.help_text|safe}}</p>{%endif%}
 </p>
 {% endifequal %}
 {% if final_attrs.DEBUG %}
